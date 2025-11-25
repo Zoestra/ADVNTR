@@ -1,19 +1,19 @@
 export const Campaign_data = [
     {
         id:1001,
-        name:"",
+        name:"Drums from the deep",
         location:"Seattle",
         DM:1,
     },
     {
         id:1002,
-        name:"",
+        name:"Verdant labyrinth",
         location:"Tacoma",
         DM:2,
     },
     {
         id:1003,
-        name:"",
+        name:"The shattered throne",
         location:"Portland",
         DM:3,
     },
