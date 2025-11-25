@@ -1,0 +1,20 @@
+export const Campaign_data = [
+    {
+        id:1001,
+        name:"",
+        location:"Seattle",
+        DM:1,
+    },
+    {
+        id:1002,
+        name:"",
+        location:"Tacoma",
+        DM:2,
+    },
+    {
+        id:1003,
+        name:"",
+        location:"Portland",
+        DM:3,
+    },
+];

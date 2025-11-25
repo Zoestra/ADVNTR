@@ -1,4 +1,4 @@
-function campaignPost(){
+function campaignPost(campaign){
     return(
          <div>
             <h1>Campaign</h1>
