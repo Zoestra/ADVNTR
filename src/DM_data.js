@@ -2,17 +2,17 @@
 export const DM_data = [
     {
         id: 1,
-        Name:"Alice",
-        Location: "Seattle",
+        name:"Alice",
+        location: "Seattle, WA",
     },
     {
         id: 2,
-        Name: "Bob",
-        Location: "Tacoma",
+        name: "Bob",
+        location: "Tacoma, WA",
     },
     {
         id: 3,
-        Name: "Carol",
-        Location: "Portland",
+        name: "Carol",
+        location: "Portland, OR",
     }
 ];

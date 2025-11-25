@@ -2,16 +2,16 @@ export const Player_data = [
     {
         id:101,
         name:"Debbie",
-        location: "Seattle",
+        location: "Seattle, WA",
     },
     {
         id:102,
         name:"Edgar",
-        location: "Portland",
+        location: "Portland, OR",
     },
     {
         id:103,
         name:"Frank",
-        location:"Olympia"
+        location:"Olympia, WA"
     },
 ];
