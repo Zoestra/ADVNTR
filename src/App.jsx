@@ -9,31 +9,44 @@ import {Campaign_data} from "./Campaign_data.js";
 function App(){
     const [locationFilter, setLocationFilter] = useState("");
     const [schedulingFilter, setSchedulingFilter] = useState(null);
-    
-    const dm_filter = DM_data.filter(
-        dm => dm.location.toLowerCase().includes(locationFilter.toLowerCase()));
 
-    const player_filter = Player_data.filter(
-        player => player.location.toLowerCase().includes(locationFilter.toLowerCase()));
-
-    const campaign_filter= Campaign_data.filter(
-        campaign => campaign.location.toLowerCase().includes(locationFilter.toLowerCase()));
+    const generalFilter = (data) => {
+        return (
+            data.filter(
+                data => data.location.toLowerCase().includes(locationFilter.toLocaleLowerCase())
+            ).filter(
+                data => schedulingFilter === null || data.schedule === schedulingFilter
+            ));
+    };
 
     return(
         <div>
             <h1>ADVNTR</h1>
             <input type="text" placeholder="search by location" value={locationFilter}
                 onChange={(event) => setLocationFilter(event.target.value)}></input>
+                <select
+                    value={schedulingFilter || ""}
+                    onChange={(event) => setSchedulingFilter(event.target.value || null)}>
+                    <option value="">All scheduling</option>
+                    <option value="Weeknights (Mon–Thu)">Weeknights (Mon–Thu)</option>
+                    <option value="Friday nights">Friday nights</option>
+                    <option value="Saturday morning">Saturday morning</option>
+                    <option value="Saturday afternoon">Saturday afternoon</option>
+                    <option value="Saturday evening">Saturday evening</option>
+                    <option value="Sunday morning">Sunday morning</option>
+                    <option value="Sunday afternoon">Sunday afternoon</option>
+                    <option value="Sunday evening">Sunday evening</option>
+                </select>
             <h2>Campaigns</h2>
-                {campaign_filter.map(campaign => (
+                {generalFilter(Campaign_data).map(campaign => (
                     <CampaignPost key={campaign.id} campaign={campaign} />
                 ))}
             <h2>Dungeon Masters</h2>
-                { dm_filter.map( dm => (
+                { generalFilter(DM_data).map( dm => (
                     <DMProfile key={dm.id} dm={dm} />
                 )) }
             <h2>Players</h2>
-                { player_filter.map( player => (
+                { generalFilter(Player_data).map( player => (
                     <PlayerProfile key={player.id} player={player} />
                 ))}
         </div>

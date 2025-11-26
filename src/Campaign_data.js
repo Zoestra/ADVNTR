@@ -3,18 +3,18 @@ export const Campaign_data = [
         id:1001,
         name:"Drums from the deep",
         location:"Seattle, WA",
-        DM:1,
+        schedule: "Saturday evening",
     },
     {
         id:1002,
         name:"Verdant labyrinth",
         location:"Tacoma, WA",
-        DM:2,
+        schedule: "Friday nights",
     },
     {
         id:1003,
         name:"The shattered throne",
         location:"Portland, OR",
-        DM:3,
+        schedule: "Saturday evening",
     },
 ];
