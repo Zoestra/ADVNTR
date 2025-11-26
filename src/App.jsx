@@ -15,7 +15,7 @@ function App(){
             data.filter(
                 data => data.location.toLowerCase().includes(locationFilter.toLocaleLowerCase())
             ).filter(
-                data => schedulingFilter === null || data.schedule === schedulingFilter
+                data => schedulingFilter === null || data.schedule.includes(schedulingFilter) || data.schedule === "All"
             ));
     };
 
@@ -30,12 +30,12 @@ function App(){
                     <option value="">All scheduling</option>
                     <option value="Weeknights (Mon–Thu)">Weeknights (Mon–Thu)</option>
                     <option value="Friday nights">Friday nights</option>
-                    <option value="Saturday morning">Saturday morning</option>
-                    <option value="Saturday afternoon">Saturday afternoon</option>
-                    <option value="Saturday evening">Saturday evening</option>
-                    <option value="Sunday morning">Sunday morning</option>
-                    <option value="Sunday afternoon">Sunday afternoon</option>
-                    <option value="Sunday evening">Sunday evening</option>
+                    <option value="Saturday mornings">Saturday mornings</option>
+                    <option value="Saturday afternoons">Saturday afternoons</option>
+                    <option value="Saturday evenings">Saturday evenings</option>
+                    <option value="Sunday mornings">Sunday mornings</option>
+                    <option value="Sunday afternoons">Sunday afternoons</option>
+                    <option value="Sunday evenings">Sunday evenings</option>
                 </select>
             <h2>Campaigns</h2>
                 {generalFilter(Campaign_data).map(campaign => (
