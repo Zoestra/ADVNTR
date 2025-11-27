@@ -22,11 +22,13 @@ function App(){
     return(
         <div>
             <h1>ADVNTR</h1>
+            Location
             <input type="text" placeholder="search by location" value={locationFilter}
                 onChange={(event) => setLocationFilter(event.target.value)}></input>
-                <select
-                    value={schedulingFilter || ""}
-                    onChange={(event) => setSchedulingFilter(event.target.value || null)}>
+            Scheduling
+            <select
+                value={schedulingFilter || ""}
+                onChange={(event) => setSchedulingFilter(event.target.value || null)}>
                     <option value="">All scheduling</option>
                     <option value="Weeknights (Mon–Thu)">Weeknights (Mon–Thu)</option>
                     <option value="Friday nights">Friday nights</option>
@@ -36,7 +38,7 @@ function App(){
                     <option value="Sunday mornings">Sunday mornings</option>
                     <option value="Sunday afternoons">Sunday afternoons</option>
                     <option value="Sunday evenings">Sunday evenings</option>
-                </select>
+            </select>
             <h2>Campaigns</h2>
                 {generalFilter(Campaign_data).map(campaign => (
                     <CampaignCard key={campaign.id} campaign={campaign} />
