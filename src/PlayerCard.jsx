@@ -1,4 +1,4 @@
-function PlayerProfile({player}){
+function PlayerCard({player}){
     return (
          <div>
             <ul>
@@ -11,4 +11,4 @@ function PlayerProfile({player}){
     );
 }
 
-export default PlayerProfile;
+export default PlayerCard;

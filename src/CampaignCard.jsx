@@ -1,5 +1,5 @@
 import { DM_data } from "./DM_data";
-function CampaignPost({campaign}){
+function CampaignCard({campaign}){
     return(
          <div>
             <ul>
@@ -12,4 +12,4 @@ function CampaignPost({campaign}){
     );
 }
 
-export default CampaignPost;
+export default CampaignCard;

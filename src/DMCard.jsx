@@ -1,4 +1,4 @@
-function DMProfile({dm}){
+function DMCard({dm}){
     return (
         <div>
             <ul>
@@ -11,4 +11,4 @@ function DMProfile({dm}){
     )
 }
 
-export default DMProfile;
+export default DMCard;

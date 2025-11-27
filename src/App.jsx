@@ -1,7 +1,7 @@
 import { useState } from "react";
-import DMProfile from "./DMProfile";
-import PlayerProfile from "./PlayerProfile";
-import CampaignPost from "./CampaignPost.jsx";
+import DMCard from "./DMCard.jsx";
+import PlayerCard from "./PlayerCard";
+import CampaignCard from "./CampaignCard.jsx";
 import {DM_data} from "./DM_data.js";
 import {Player_data} from "./Player_data.js";
 import {Campaign_data} from "./Campaign_data.js";
@@ -39,15 +39,15 @@ function App(){
                 </select>
             <h2>Campaigns</h2>
                 {generalFilter(Campaign_data).map(campaign => (
-                    <CampaignPost key={campaign.id} campaign={campaign} />
+                    <CampaignCard key={campaign.id} campaign={campaign} />
                 ))}
             <h2>Dungeon Masters</h2>
                 { generalFilter(DM_data).map( dm => (
-                    <DMProfile key={dm.id} dm={dm} />
+                    <DMCard key={dm.id} dm={dm} />
                 )) }
             <h2>Players</h2>
                 { generalFilter(Player_data).map( player => (
-                    <PlayerProfile key={player.id} player={player} />
+                    <PlayerCard key={player.id} player={player} />
                 ))}
         </div>
     );
