@@ -9,6 +9,9 @@ import {Campaign_data} from "./Campaign_data.js";
 function App(){
     const [locationFilter, setLocationFilter] = useState("");
     const [schedulingFilter, setSchedulingFilter] = useState(null);
+    const [campaignNameFilter, setCampaignNameFilter] = useState("");
+    const [playerNameFilter, setPlayerNameFilter] = useState("");
+    const [dmNameFilter, setDMNameFilter] = useState("");
 
     const generalFilter = (data) => {
         return (
@@ -40,15 +43,24 @@ function App(){
                     <option value="Sunday evenings">Sunday evenings</option>
             </select>
             <h2>Campaigns</h2>
-                {generalFilter(Campaign_data).map(campaign => (
+            <input type="text" placeholder="search by campaign name" value={campaignNameFilter}
+                onChange={(event) => setCampaignNameFilter(event.target.value)}></input>
+                {generalFilter(Campaign_data).filter(campaign => campaign.name.toLowerCase()
+                    .includes(campaignNameFilter.toLowerCase())).map(campaign => (
                     <CampaignCard key={campaign.id} campaign={campaign} />
                 ))}
             <h2>Dungeon Masters</h2>
-                { generalFilter(DM_data).map( dm => (
+                <input type="text" placeholder="search by user name" value={dmNameFilter}
+                    onChange={(event) => setDMNameFilter(event.target.value)}></input>
+                { generalFilter(DM_data).filter(dm => dm.name.toLowerCase()
+                    .includes(dmNameFilter.toLowerCase())).map( dm => (
                     <DMCard key={dm.id} dm={dm} />
                 )) }
             <h2>Players</h2>
-                { generalFilter(Player_data).map( player => (
+                <input type="text" placeholder="search by user name" value={playerNameFilter}
+                    onChange={(event) => setPlayerNameFilter(event.target.value)}></input>
+                { generalFilter(Player_data).filter(player => player.name.toLowerCase()
+                    .includes(playerNameFilter.toLowerCase())).map( player => (
                     <PlayerCard key={player.id} player={player} />
                 ))}
         </div>
