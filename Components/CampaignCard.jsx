@@ -1,4 +1,4 @@
-import { DM_data } from "./DM_data";
+import { DM_data } from "../Data/DM_data";
 function CampaignCard({campaign}){
     return(
          <div>

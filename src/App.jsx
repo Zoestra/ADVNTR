@@ -1,10 +1,10 @@
 import { useState } from "react";
-import DMCard from "./DMCard.jsx";
-import PlayerCard from "./PlayerCard";
-import CampaignCard from "./CampaignCard.jsx";
-import {DM_data} from "./DM_data.js";
-import {Player_data} from "./Player_data.js";
-import {Campaign_data} from "./Campaign_data.js";
+import DMCard from "../Components/DMCard.jsx";
+import PlayerCard from "../Components/PlayerCard.jsx";
+import CampaignCard from "../Components/CampaignCard.jsx";
+import {DM_data} from "../Data/DM_data.js";
+import {Player_data} from "../Data/Player_data.js";
+import {Campaign_data} from "../Data/Campaign_data.js";
 
 function App(){
     const [locationFilter, setLocationFilter] = useState("");
