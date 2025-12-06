@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './Login.css'; // Create an optional CSS file for styling if you want to separate styles
+import './Login.css'; 
 
 function Login({ onLogin }) {
     const [username, setUsername] = useState("");
@@ -7,7 +7,7 @@ function Login({ onLogin }) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Basic validation can be added here
+        // Basic validation here
         if (username && password) {
             onLogin(username); // Call the function passed from App.jsx
         }
