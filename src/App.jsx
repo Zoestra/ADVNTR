@@ -12,6 +12,8 @@ function App(){
     const [campaignNameFilter, setCampaignNameFilter] = useState("");
     const [playerNameFilter, setPlayerNameFilter] = useState("");
     const [dmNameFilter, setDMNameFilter] = useState("");
+    const [visible, setVisible] = useState(false);
+    const [user, setUser] = useState(null);
 
     const generalFilter = (data) => {
         return (
@@ -22,8 +24,21 @@ function App(){
             ));
     };
 
+    const toggleVisible = () => setVisible(prevState => !prevState);
+
     return(
         <div>
+            <button onClick={toggleVisible}>{visible ? "Close Login" : "Login"}</button>
+            {visible && (
+                <form>
+                    Username:
+                    <input type="text"></input>
+                    Password:
+                    <input type="password"></input>
+                    <input type="submit"></input>
+                </form>
+            )}
+
             <h1>ADVNTR</h1>
             Location
             <input type="text" placeholder="search by location" value={locationFilter}
