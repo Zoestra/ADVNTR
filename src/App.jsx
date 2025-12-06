@@ -10,6 +10,7 @@ function App(){
     const [locationFilter, setLocationFilter] = useState("");
     const [schedulingFilter, setSchedulingFilter] = useState(null);
     const [campaignNameFilter, setCampaignNameFilter] = useState("");
+    const [campaignStyleFilter, setCampaignStyleFilter] = useState("");
     const [playerNameFilter, setPlayerNameFilter] = useState("");
     const [dmNameFilter, setDMNameFilter] = useState("");
     const [visible, setVisible] = useState(false);
@@ -60,8 +61,12 @@ function App(){
             <h2>Campaigns</h2>
             <input type="text" placeholder="search by campaign name" value={campaignNameFilter}
                 onChange={(event) => setCampaignNameFilter(event.target.value)}></input>
+            <input type="text" placeholder="search by style" value={campaignStyleFilter}
+                onChange={(evnet) => setCampaignStyleFilter(event.target.value)}></input>
                 {generalFilter(Campaign_data).filter(campaign => campaign.name.toLowerCase()
-                    .includes(campaignNameFilter.toLowerCase())).map(campaign => (
+                    .includes(campaignNameFilter.toLowerCase())).filter(
+                        campaign => campaign.style.toLocaleLowerCase().includes(campaignStyleFilter.toLowerCase()))
+                        .map(campaign => (
                     <CampaignCard key={campaign.id} campaign={campaign} />
                 ))}
             <h2>Dungeon Masters</h2>
