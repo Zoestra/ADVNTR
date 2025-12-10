@@ -1,15 +1,17 @@
 import { useState } from "react";
+import ProfileForm from "./ProfileForm.jsx";
 
 function AccountLogin() {
-    const [visible, setVisible] = useState(false);
-    const [user, setUser] = useState(null);
+    const [toggleLogin, setToggleLogin] = useState(false);
+    const [toggleAcctCreate, setToggleAcctCreate] = useState(false);
 
-    const toggleVisible = () => setVisible(prevState => !prevState);
+    const loginVisible = () => setToggleLogin(prevState => !prevState);
+    const createAcctVisible = () => setToggleAcctCreate(prevState => !prevState)
 
     return(
         <div>
-            <button onClick={toggleVisible}>{visible ? "Close Login" : "Login"}</button>
-            {visible && (
+            <button onClick={loginVisible}>{toggleLogin ? "Close Login" : "Login"}</button>
+            {toggleLogin && (
                 <form>
                     Username:
                     <input type="text"></input>
@@ -18,6 +20,10 @@ function AccountLogin() {
                     <input type="submit"></input>
                 </form>
             )}
+            <button onClick={createAcctVisible}>Create Account</button>
+                    {toggleAcctCreate && (
+                        <ProfileForm />
+                    )}
         </div>
     )
 
