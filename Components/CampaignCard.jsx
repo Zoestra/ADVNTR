@@ -6,7 +6,7 @@ function CampaignCard({campaign}){
                 <li><section className="field">Name: </section> {campaign.name}</li>
                 <li><section className="field">Location: </section>{campaign.location}</li>
                 <li><section className="field">DM:</section>{ DM_data.find(dm => dm.id === campaign.dm).name }</li>
-                <li><section className="field">Theme/Setting:</section>setting or theme goes here</li>
+                <li><section className="field">Theme/Setting:</section>{campaign.style}</li>
             </ul>
         </div>
     );
