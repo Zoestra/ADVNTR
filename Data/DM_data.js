@@ -26,20 +26,20 @@ export const DM_data = [
         name: "orc_shaman67",
         location: "Salem, OR",
         schedule: "Weeknights (Mon–Thu)",
-        pronouns: "",
+        pronouns: "he/him",
     },
     {
         id: 5,
         name: "Halflings_Plant",
         location: "Yakima, WA",
         schedule: "Sunday mornings",
-        pronouns: "",
+        pronouns: "she/her",
     },
     {
         id: 6,
         name: "SarumanDidNothingWrong",
         location: "Eugene, OR",
         schedule: "Sunday evenings",
-        pronouns: "",
+        pronouns: "they/them",
     }
 ];
