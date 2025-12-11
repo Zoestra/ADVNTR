@@ -5,6 +5,7 @@ export const Player_data = [
         location: "Seattle, WA",
         schedule: "Saturday evenings",
         pronouns: "she/her",
+        contact: "debbie@example.com"
     },
     {
         id:102,
@@ -12,6 +13,7 @@ export const Player_data = [
         location: "Portland, OR",
         schedule: "Saturday evenings",
         pronouns: "they/them",
+        contact: "edgar@example.com"
     },
     {
         id:103,
@@ -19,6 +21,7 @@ export const Player_data = [
         location:"Olympia, WA",
         schedule: "Friday nights",
         pronouns: "he/him",
+        contact: "frank@example.com"
     },
     {
         id:104,
@@ -26,6 +29,7 @@ export const Player_data = [
         location:"Spokane, WA",
         schedule: "Sunday mornings",
         pronouns: "she/her",
+        contact: ""
     },
     {
         id:105,
@@ -33,12 +37,14 @@ export const Player_data = [
         location:"Federal Way, WA",
         schedule: "Saturday mornings",
         pronouns: "he/him",
+        contact: ""
     },
     {
         id:106,
         name:"TheodoricTheNotGoth",
         location:"Mount Vernon, WA",
         schedule: "they/them",
+        contact: ""
     },
     {
         id:107,
@@ -53,6 +59,7 @@ export const Player_data = [
         location:"Prosser, WA",
         schedule: "Saturday afternoons, Saturday evenings, Sunday mornings, Sunday afternoons",
         pronouns: "he/him",
+        contact: ""
     },
     {
         id:109,
@@ -60,5 +67,6 @@ export const Player_data = [
         location:"Kent, WA",
         schedule: "Weeknights (Mon–Thu), Friday nights",
         pronouns: "they/them",
+        contact: ""
     },
 ];
