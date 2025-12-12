@@ -1,10 +1,12 @@
-const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const bcrypt = require('bcrypt'); // Make sure bcrypt is installed
+import express from "express";
+import sqlite3 from "sqlite3";
+import bcrypt from 'bcryptjs'; // Make sure bcrypt is installed
+import cors from "cors";
 const app = express();
 const port = 3000;
 
 // Middleware to parse JSON bodies
+app.use(cors());
 app.use(express.json());
 
 // Establish a database connection
