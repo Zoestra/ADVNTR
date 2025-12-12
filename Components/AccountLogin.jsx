@@ -1,22 +1,39 @@
 import { useState } from "react";
 import ProfileForm from "./ProfileForm.jsx";
+import { auth } from "../API/auth.jsx";
 
 function AccountLogin() {
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
     const [toggleLogin, setToggleLogin] = useState(false);
     const [toggleAcctCreate, setToggleAcctCreate] = useState(false);
 
     const loginVisible = () => setToggleLogin(prevState => !prevState);
     const createAcctVisible = () => setToggleAcctCreate(prevState => !prevState)
 
+    const handleSubmit = async(e) => {
+        e.preventDefault();
+        const res = await auth.login({userName, password});
+        console.log(res);
+    }
+
     return(
         <div>
             <button onClick={loginVisible}>{toggleLogin ? "Close Login" : "Login"}</button>
             {toggleLogin && (
-                <form>
+                <form onSubmit={handleSubmit}>
                     Username:
-                    <input type="text"></input>
+                    <input 
+                        type="text" 
+                        value={userName} 
+                        onChange={(e) => setUserName(e.target.value)}
+                        required />
                     Password:
-                    <input type="password"></input>
+                    <input 
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        />
                     <input type="submit"></input>
                 </form>
             )}
