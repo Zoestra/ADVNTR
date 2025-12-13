@@ -2,7 +2,7 @@ import { useState } from "react";
 import ProfileForm from "./ProfileForm.jsx";
 import { auth } from "../API/auth.jsx";
 
-function AccountLogin() {
+function AccountLogin({ user, setUser }) {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [toggleLogin, setToggleLogin] = useState(false);
@@ -18,9 +18,13 @@ function AccountLogin() {
     }
 
     return(
-        <div>
-            <button onClick={loginVisible}>{toggleLogin ? "Close Login" : "Login"}</button>
-            {toggleLogin && (
+        <div>{
+                user ? (
+                <div>Welcome, {user.userName}!
+                <button onClick={() => setUser(null)}>Log Out</button>
+                </div>
+            ):  <button onClick={loginVisible}>{toggleLogin ? "Close Login" : "Login"}</button>
+        }{toggleLogin && (
                 <form onSubmit={handleSubmit}>
                     Username:
                     <input 
@@ -41,6 +45,7 @@ function AccountLogin() {
                     {toggleAcctCreate && (
                         <ProfileForm />
                     )}
+           
         </div>
     )
 
