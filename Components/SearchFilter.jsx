@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DMCard from "./DMCard.jsx";
 import PlayerCard from "./PlayerCard.jsx";
 import CampaignCard from "./CampaignCard.jsx";
 import { DM_data } from "../Data/DM_data.js";
 import { Player_data } from "../Data/Player_data.js";
 import { Campaign_data } from "../Data/Campaign_data.js";
+import { fetcher } from "../API/fetcher.jsx";
 
 function SearchFilter(){
     const [locationFilter, setLocationFilter] = useState("");
@@ -13,6 +14,51 @@ function SearchFilter(){
     const [campaignStyleFilter, setCampaignStyleFilter] = useState("");
     const [playerNameFilter, setPlayerNameFilter] = useState("");
     const [dmNameFilter, setDMNameFilter] = useState("");
+    
+    const [campaigns, setCampaigns] = useState([]);
+    const [players, setPlayers] = useState([]);
+    const [dms, setDMs] = useState([]);
+
+    /*
+    useEffect(() => {
+        const getData = async() => {
+            try{
+                const [c,d,p] = await Promise.all([
+                    fetcher.campaign(),
+                    fetcher.dm(),
+                    fetcher.player()                    
+                ]);
+
+                setCampaigns(await c.json());
+                setDMs(await d.json());
+                setPlayers(await p.json());
+            }catch(error){
+                console.error("Error occurred fetching:", error);
+            }
+        }
+        getData();
+    }, [])
+
+    Replace campaign's filter with this for data from backend:
+                {generalFilter(campaigns).filter(campaign => campaign.name.toLowerCase()
+                    .includes(campaignNameFilter.toLowerCase())).filter(
+                    campaign => campaign.style.toLocaleLowerCase().includes(campaignStyleFilter.toLowerCase()))
+                    .map(campaign => (
+                    <CampaignCard key={campaign.id} campaign={campaign} />
+                ))}
+
+    Replace DM's filter with this for data from backend:
+                { generalFilter(DM_data).filter(dm => dm.name.toLowerCase()
+                    .includes(dmNameFilter.toLowerCase())).map( dm => (
+                    <DMCard key={dm.id} dm={dm} />
+                )) }
+
+    Replace player's filter with this for data from backend:
+                { generalFilter(Player_data).filter(player => player.name.toLowerCase()
+                    .includes(playerNameFilter.toLowerCase())).map( player => (
+                    <PlayerCard key={player.id} player={player} />
+                ))}
+    */
 
     const generalFilter = (data) => {
         return (
@@ -48,22 +94,27 @@ function SearchFilter(){
                 onChange={(event) => setCampaignNameFilter(event.target.value)}></input>
             <input type="text" placeholder="search by style" value={campaignStyleFilter}
                 onChange={(evnet) => setCampaignStyleFilter(event.target.value)}></input>
+                
                 {generalFilter(Campaign_data).filter(campaign => campaign.name.toLowerCase()
                     .includes(campaignNameFilter.toLowerCase())).filter(
                         campaign => campaign.style.toLocaleLowerCase().includes(campaignStyleFilter.toLowerCase()))
                         .map(campaign => (
                     <CampaignCard key={campaign.id} campaign={campaign} />
                 ))}
+
             <h2>Dungeon Masters</h2>
                 <input type="text" placeholder="search by user name" value={dmNameFilter}
                     onChange={(event) => setDMNameFilter(event.target.value)}></input>
+
                 { generalFilter(DM_data).filter(dm => dm.name.toLowerCase()
                     .includes(dmNameFilter.toLowerCase())).map( dm => (
                     <DMCard key={dm.id} dm={dm} />
                 )) }
+
             <h2>Players</h2>
                 <input type="text" placeholder="search by user name" value={playerNameFilter}
                     onChange={(event) => setPlayerNameFilter(event.target.value)}></input>
+
                 { generalFilter(Player_data).filter(player => player.name.toLowerCase()
                     .includes(playerNameFilter.toLowerCase())).map( player => (
                     <PlayerCard key={player.id} player={player} />
