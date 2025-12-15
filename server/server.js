@@ -167,7 +167,7 @@ app.post('/create-account', (req, res) => {
             return res.status(400).json({ 
                 success: false,
                 error: 'Username and password are required',
-                received: { username, hasPassword: !!password, role, location, schedule }
+                received: { username, hasPassword: !!password, password, role, location, schedule }
             });
         }
 
@@ -252,6 +252,82 @@ app.post('/create-account', (req, res) => {
     }
 });
 
+// User endpoint
+
+app.get(`/users`, (req, res) => {
+    const { role, location, schedule, username } = req.query;
+
+    const conditions = [];
+    const parameters = [];
+
+    if(role){
+        conditions.push(`LOWER(role) = LOWER(?)`);
+        parameters.push(role);
+    }
+
+    if(location){
+        conditions.push(`LOWER(location) LIKE LOWER(?)`);
+        parameters.push(`%${location}%`);
+    }
+
+    if(schedule){
+        conditions.push(`LOWER(schedule) LIKE LOWER(?)`);
+        parameters.push(`%${schedule}%`);
+    }
+
+    if(username){
+        conditions.push(`LOWER(username) = LOWER(?)`);
+        parameters.push(username);
+    }
+
+    let sql = `SELECT id, username, role, location, schedule, created_at FROM users `;
+
+    if (conditions.length > 0) {
+        sql += ' WHERE ' + conditions.join(' AND ');
+    }
+    
+    sql+=`ORDER BY id`;
+
+    db.all(sql, parameters, (err, rows) => {
+        if(err){
+            console.error('SQL ERROR:', err.message);
+            console.error('SQL QUERY:', sql);
+            console.error('SQL PARAMS:', params);
+            return res.status(500).json({ 
+                success: false,
+                error: err.message 
+            });
+        };
+
+        res.json({
+            success: true,
+            count: rows.length,
+            users: rows,
+            timestamp: new Date().toISOString()
+        });
+    })
+})
+
+// endpoint for campaigns
+app.get(`/campaigns`, (req,res) => {
+    console.log('DEBUG: Fetching all campaigns');
+    
+    db.all('SELECT id, name, location, schedule, created_at FROM campaigns ORDER BY id', (err, rows) => {
+        if (err) {
+            console.error('Error fetching campaigns:', err);
+            return res.status(500).json({ error: 'Database error', details: err.message });
+        }
+        
+        console.log(`Found ${rows.length} campaigns`);
+        res.json({
+            success: true,
+            count: rows.length,
+            users: rows,
+            timestamp: new Date().toISOString()
+        });
+    });
+})
+
 // Debug endpoint to view all users (REMOVE THIS IN PRODUCTION!)
 app.get('/api/debug/users', (req, res) => {
     console.log('DEBUG: Fetching all users');
@@ -291,7 +367,7 @@ app.get('/api/debug/db-info', (req, res) => {
 });
 
 // Error handling middleware
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
     console.error('Unhandled error:', err);
     res.status(500).json({ 
         success: false,

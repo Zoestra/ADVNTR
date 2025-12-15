@@ -26,10 +26,10 @@ function ProfileForm({ onSubmit }) {
     try {
       const response = await auth.register(newProfile);
       
-      if (response?.message) {
-        setMessage(response.message);
+      if (response?.success) {
+        setMessage(response.message || "Account created successfully");
         if (onSubmit) {
-          onSubmit(newProfile);
+          onSubmit(response);
         }
         // Reset form on success
         setUsername("");
