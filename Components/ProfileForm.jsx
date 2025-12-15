@@ -4,14 +4,33 @@ function ProfileForm({ onSubmit }) {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [schedule, setSchedule] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newProfile = { name, location, schedule };
-    if (onSubmit) {
-      onSubmit(newProfile);
+
+    try {
+      const response = await fetch('http://localhost:5000/update-profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newProfile),
+      });
+
+      if (response.ok) {
+        setMessage('Profile updated successfully!');
+        onSubmit(newProfile);
+      } else {
+        const errorData = await response.json();
+        setMessage(`Error: ${errorData.message}`);
+      }
+    } catch (error) {
+      setMessage(`Error: ${error.message}`);
     }
-    // reset form
+
+    // Reset form
     setName("");
     setLocation("");
     setSchedule("");
@@ -50,6 +69,7 @@ function ProfileForm({ onSubmit }) {
       </label>
       <br />
       <button type="submit">Save Profile</button>
+      {message && <p>{message}</p>}
     </form>
   );
 }
