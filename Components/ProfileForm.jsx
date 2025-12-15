@@ -4,6 +4,7 @@ function ProfileForm({ onSubmit }) {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [schedule, setSchedule] = useState("");
+  const [isDM, setIsDM] = useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -49,6 +50,15 @@ function ProfileForm({ onSubmit }) {
         />
       </label>
       <br />
+      <lable>
+        Are you a DM or a player?
+        <select value={isDM}
+        onChange={(event) => setIsDM(event.target.value)}
+        >
+          <option value={true}>DM</option>
+          <option value={false}>Player</option>
+        </select>
+      </lable>
       <button type="submit">Save Profile</button>
     </form>
   );
