@@ -255,7 +255,7 @@ app.post('/create-account', (req, res) => {
 // User endpoint
 
 app.get(`/users`, (req, res) => {
-    const { role, location, schedule } = req.query;
+    const { role, location, schedule, username } = req.query;
 
     const conditions = [];
     const parameters = [];
@@ -273,6 +273,11 @@ app.get(`/users`, (req, res) => {
     if(schedule){
         conditions.push(`LOWER(schedule) LIKE LOWER(?)`);
         parameters.push(`%${schedule}%`);
+    }
+
+    if(username){
+        conditions.push(`LOWER(username) = LOWER(?)`);
+        parameters.push(username);
     }
 
     let sql = `SELECT id, username, role, location, schedule, created_at FROM users `;

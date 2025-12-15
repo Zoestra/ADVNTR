@@ -84,7 +84,7 @@ function SearchFilter(){
                 <input type="text" placeholder="search by user name" value={dmNameFilter}
                     onChange={(event) => setDMNameFilter(event.target.value)}></input>
 
-                { generalFilter(dms).filter(dm => (dm.name || "").toLowerCase()
+                { generalFilter(dms).filter(dm => (dm.username || "").toLowerCase()
                     .includes((dmNameFilter || "").toLowerCase())).map( dm => (
                     <DMCard key={dm.id} dm={dm} />
                 )) }
@@ -93,8 +93,8 @@ function SearchFilter(){
                 <input type="text" placeholder="search by user name" value={playerNameFilter}
                     onChange={(event) => setPlayerNameFilter(event.target.value)}></input>
 
-                { generalFilter(players).filter(player => (player.name || "").toLowerCase()
-                    .includes((player.name || "").toLowerCase())).map( player => (
+                { generalFilter(players).filter(player => (player.username || "").toLowerCase()
+                    .includes((playerNameFilter || "").toLowerCase())).map( player => (
                     <PlayerCard key={player.id} player={player} />
                 ))}
         </div>
