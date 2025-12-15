@@ -43,14 +43,12 @@ function AccountLogin({ user, setUser }) {
         }
     };
 
-    const handleAccountCreate = async (newProfile) => {
+    const handleAccountCreate = async (response) => {
         setMessage("");
         
         try {
-            const res = await auth.register(newProfile);
-            
-            if (res?.success) {
-                setMessage(`Account created successfully! Welcome ${newProfile.username} (${newProfile.role}). You can log in now.`);
+            if (response?.success) {
+                setMessage(`Account created successfully! Welcome ${response.username} (${response.role}). You can log in now.`);
                 setToggleAcctCreate(false);
             } else {
                 setMessage("Account creation failed. Please try again.");
