@@ -29,17 +29,20 @@ app.use((req, res, next) => {
 });
 
 // Database connection
-const db = new sqlite3.Database('./users.db', (err) => {
+const dbPath = path.join(__dirname, './users.db');
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
         console.error('Error opening database:', err.message);
+        console.error('Database path attempted:', dbPath);
     } else {
-        console.log('Connected to SQLite database');
+        console.log('Connected to SQLite database at:', dbPath);
         
-        // Create users table if it doesn't exist
+        // Create users table if it doesn't exist (with role column)
         db.run(`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
+            role TEXT CHECK(role IN ('DM', 'Player')) NOT NULL DEFAULT 'Player',
             location TEXT,
             schedule TEXT,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -47,7 +50,14 @@ const db = new sqlite3.Database('./users.db', (err) => {
             if (err) {
                 console.error('Error creating table:', err.message);
             } else {
-                console.log('Users table is ready');
+                console.log('Users table is ready (with role column)');
+                
+                // Try to add role column if table exists without it (safe to run multiple times)
+                db.run(`ALTER TABLE users ADD COLUMN role TEXT CHECK(role IN ('DM', 'Player')) DEFAULT 'Player'`, (err) => {
+                    if (err && !err.message.includes('duplicate column name')) {
+                        // It's OK if column already exists
+                    }
+                });
             }
         });
     }
@@ -113,8 +123,8 @@ app.post('/login', (req, res) => {
                 
                 if (match) {
                     // Remove password from response
-                    const { password: _, ...userWithoutPassword } = row; // Fix: Rename unused password variable
-                    console.log('Login successful for:', username);
+                    const { password: _, ...userWithoutPassword } = row;
+                    console.log('Login successful for:', username, 'Role:', userWithoutPassword.role);
                     res.json({ 
                         success: true,
                         message: 'Login successful', 
@@ -141,11 +151,12 @@ app.post('/login', (req, res) => {
 // Create account endpoint
 app.post('/create-account', (req, res) => {
     try {
-        const { username, password, location, schedule } = req.body;
+        const { username, password, role, location, schedule } = req.body;
         
         console.log('Registration attempt:', { 
             username, 
             password: password ? '***' : 'missing',
+            role,
             location, 
             schedule 
         });
@@ -156,7 +167,7 @@ app.post('/create-account', (req, res) => {
             return res.status(400).json({ 
                 success: false,
                 error: 'Username and password are required',
-                received: { username, hasPassword: !!password, location, schedule }
+                received: { username, hasPassword: !!password, role, location, schedule }
             });
         }
 
@@ -164,6 +175,16 @@ app.post('/create-account', (req, res) => {
             return res.status(400).json({
                 success: false,
                 error: 'Password must be at least 6 characters'
+            });
+        }
+
+        // Validate role
+        const validRoles = ['DM', 'Player'];
+        const userRole = role || 'Player'; // Default to Player if not specified
+        if (!validRoles.includes(userRole)) {
+            return res.status(400).json({
+                success: false,
+                error: 'Role must be either "DM" or "Player"'
             });
         }
 
@@ -198,10 +219,10 @@ app.post('/create-account', (req, res) => {
                     });
                 }
 
-                const sql = 'INSERT INTO users (username, password, location, schedule) VALUES (?, ?, ?, ?)';
-                console.log('Executing SQL insert for user:', username);
+                const sql = 'INSERT INTO users (username, password, role, location, schedule) VALUES (?, ?, ?, ?, ?)';
+                console.log('Executing SQL insert for user:', username, 'role:', userRole);
                 
-                db.run(sql, [username, hashedPassword, location || null, schedule || null], function(err) {
+                db.run(sql, [username, hashedPassword, userRole, location || null, schedule || null], function(err) {
                     if (err) {
                         console.error('Database INSERT error:', err);
                         return res.status(500).json({ 
@@ -211,12 +232,13 @@ app.post('/create-account', (req, res) => {
                         });
                     }
                     
-                    console.log('Account created successfully. ID:', this.lastID);
+                    console.log('Account created successfully. ID:', this.lastID, 'Role:', userRole);
                     res.status(201).json({ 
                         success: true,
                         message: 'Account created successfully',
                         userId: this.lastID,
-                        username: username
+                        username: username,
+                        role: userRole
                     });
                 });
             });
@@ -230,8 +252,46 @@ app.post('/create-account', (req, res) => {
     }
 });
 
+// Debug endpoint to view all users (REMOVE THIS IN PRODUCTION!)
+app.get('/api/debug/users', (req, res) => {
+    console.log('DEBUG: Fetching all users');
+    
+    db.all('SELECT id, username, role, location, schedule, created_at FROM users ORDER BY id', (err, rows) => {
+        if (err) {
+            console.error('DEBUG: Error fetching users:', err);
+            return res.status(500).json({ error: 'Database error', details: err.message });
+        }
+        
+        console.log(`DEBUG: Found ${rows.length} users`);
+        res.json({
+            success: true,
+            count: rows.length,
+            users: rows,
+            timestamp: new Date().toISOString()
+        });
+    });
+});
+
+// Debug endpoint to view database info
+app.get('/api/debug/db-info', (req, res) => {
+    console.log('DEBUG: Getting database info');
+    
+    db.all("SELECT name FROM sqlite_master WHERE type='table'", (err, tables) => {
+        if (err) {
+            return res.status(500).json({ error: 'Database error' });
+        }
+        
+        res.json({
+            success: true,
+            tables: tables.map(t => t.name),
+            database: 'users.db',
+            serverTime: new Date().toISOString()
+        });
+    });
+});
+
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     console.error('Unhandled error:', err);
     res.status(500).json({ 
         success: false,
@@ -252,4 +312,8 @@ app.use((req, res) => {
 app.listen(port, '0.0.0.0', () => {
     console.log(`Server running at http://localhost:${port}`);
     console.log(`Test endpoint: http://localhost:${port}/test`);
+    console.log(`Database path: ${dbPath}`);
+    console.log(`Debug endpoints available:`);
+    console.log(`  - http://localhost:${port}/api/debug/users`);
+    console.log(`  - http://localhost:${port}/api/debug/db-info`);
 });

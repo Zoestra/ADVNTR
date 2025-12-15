@@ -4,6 +4,7 @@ import { auth } from "../API/auth.jsx";
 function ProfileForm({ onSubmit }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("Player"); // Default to Player
   const [location, setLocation] = useState("");
   const [schedule, setSchedule] = useState("");
   const [message, setMessage] = useState("");
@@ -18,6 +19,7 @@ function ProfileForm({ onSubmit }) {
     const newProfile = { 
       username, 
       password, 
+      role, // Include role in the data
       location: location || null, 
       schedule: schedule || null 
     };
@@ -28,11 +30,12 @@ function ProfileForm({ onSubmit }) {
       if (response?.message) {
         setMessage(response.message);
         if (onSubmit) {
-          onSubmit(newProfile); // Pass data back to parent
+          onSubmit(newProfile);
         }
         // Reset form on success
         setUsername("");
         setPassword("");
+        setRole("Player");
         setLocation("");
         setSchedule("");
       } else {
@@ -46,74 +49,126 @@ function ProfileForm({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: '0 auto' }}>
       <h2>Create Your Profile</h2>
       
-      <div>
-        <label>
-          Username:
+      <div style={{ marginBottom: '15px' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>
+          Username: *
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
             placeholder="Choose a username"
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
           />
         </label>
       </div>
       
-      <div>
-        <label>
-          Password:
+      <div style={{ marginBottom: '15px' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>
+          Password: *
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            placeholder="Choose a password"
+            placeholder="At least 6 characters"
             minLength="6"
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
           />
         </label>
       </div>
       
-      <div>
-        <label>
+      <div style={{ marginBottom: '15px' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>
+          I am a: *
+        </label>
+        <div style={{ display: 'flex', gap: '20px', marginTop: '5px' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <input
+              type="radio"
+              name="role"
+              value="Player"
+              checked={role === "Player"}
+              onChange={(e) => setRole(e.target.value)}
+            />
+            Player
+          </label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <input
+              type="radio"
+              name="role"
+              value="DM"
+              checked={role === "DM"}
+              onChange={(e) => setRole(e.target.value)}
+            />
+            Dungeon Master (DM)
+          </label>
+        </div>
+        <div style={{ fontSize: '0.9em', color: '#666', marginTop: '5px' }}>
+          {role === "Player" 
+            ? "Join campaigns and play characters" 
+            : "Create and manage campaigns for players"}
+        </div>
+      </div>
+      
+      <div style={{ marginBottom: '15px' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>
           Location:
           <input
             type="text"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            placeholder="Your location (optional)"
+            placeholder="City, State (optional)"
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
           />
         </label>
       </div>
       
-      <div>
-        <label>
+      <div style={{ marginBottom: '20px' }}>
+        <label style={{ display: 'block', marginBottom: '5px' }}>
           Scheduling Availability:
           <input
             type="text"
             value={schedule}
             onChange={(e) => setSchedule(e.target.value)}
-            placeholder="e.g., Mon-Fri 9-5 (optional)"
+            placeholder="e.g., Weekends, Mon/Wed evenings (optional)"
+            style={{ width: '100%', padding: '8px', marginTop: '5px' }}
           />
         </label>
       </div>
       
-      <label>
-        Are you a DM or a player?
-        <select value={isDM}
-        onChange={(event) => setIsDM(event.target.value)}
-        >
-          <option value={true}>DM</option>
-          <option value={false}>Player</option>
-        </select>
-      </label>
-      <button type="submit" disabled={loading}>
+      <button 
+        type="submit" 
+        disabled={loading}
+        style={{
+          width: '100%',
+          padding: '10px',
+          backgroundColor: loading ? '#ccc' : '#4CAF50',
+          color: 'white',
+          border: 'none',
+          borderRadius: '4px',
+          cursor: loading ? 'not-allowed' : 'pointer',
+          fontSize: '16px'
+        }}
+      >
         {loading ? "Creating Account..." : "Create Account"}
       </button>
       
-      {message && <p>{message}</p>}
+      {message && (
+        <div style={{
+          marginTop: '15px',
+          padding: '10px',
+          backgroundColor: message.includes('success') ? '#d4edda' : '#f8d7da',
+          color: message.includes('success') ? '#155724' : '#721c24',
+          borderRadius: '4px',
+          textAlign: 'center'
+        }}>
+          {message}
+        </div>
+      )}
     </form>
   );
 }

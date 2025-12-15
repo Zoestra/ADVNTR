@@ -13,7 +13,7 @@ function AccountLogin({ user, setUser }) {
     const loginVisible = () => setToggleLogin(prevState => !prevState);
     const createAcctVisible = () => {
         setToggleAcctCreate(prevState => !prevState);
-        setMessage(""); // Clear messages when toggling
+        setMessage("");
     };
 
     const handleLoginSubmit = async (e) => {
@@ -23,16 +23,16 @@ function AccountLogin({ user, setUser }) {
         
         try {
             const res = await auth.login({ 
-                username,  // Changed from userName to match server expectation
+                username, 
                 password 
             });
             
             if (res?.user) {
                 setUser(res.user);
-                setMessage("Login successful!");
-                setToggleLogin(false); // Close login form
-                setUsername(""); // Clear form
-                setPassword(""); // Clear form
+                setMessage(`Login successful! Welcome ${res.user.username} (${res.user.role})`);
+                setToggleLogin(false);
+                setUsername("");
+                setPassword("");
             } else {
                 setMessage("Login failed. Please check your credentials.");
             }
@@ -44,15 +44,14 @@ function AccountLogin({ user, setUser }) {
     };
 
     const handleAccountCreate = async (newProfile) => {
-        setMessage(""); // Clear previous messages
+        setMessage("");
         
         try {
-            // Call the register function (not createAccount)
             const res = await auth.register(newProfile);
             
-            if (res?.message) {
-                setMessage("Account created successfully! You can log in now.");
-                setToggleAcctCreate(false); // Close the account creation form
+            if (res?.success) {
+                setMessage(`Account created successfully! Welcome ${newProfile.username} (${newProfile.role}). You can log in now.`);
+                setToggleAcctCreate(false);
             } else {
                 setMessage("Account creation failed. Please try again.");
             }
@@ -67,51 +66,101 @@ function AccountLogin({ user, setUser }) {
     };
 
     return (
-        <div style={{ padding: '20px', maxWidth: '400px', margin: '0 auto' }}>
+        <div style={{ padding: '20px', maxWidth: '500px', margin: '0 auto' }}>
             {user ? (
-                <div>
-                    <h2>Welcome, {user.username}!</h2>
-                    <button onClick={handleLogout}>Log Out</button>
+                <div style={{ textAlign: 'center' }}>
+                    <h2>
+                        Welcome, {user.username}! 
+                        <span style={{
+                            display: 'inline-block',
+                            marginLeft: '10px',
+                            padding: '2px 8px',
+                            backgroundColor: user.role === 'DM' ? '#6a0dad' : '#2e7d32',
+                            color: 'white',
+                            borderRadius: '12px',
+                            fontSize: '0.8em'
+                        }}>
+                            {user.role}
+                        </span>
+                    </h2>
+                    <p>Role: {user.role === 'DM' ? 'Dungeon Master' : 'Player'}</p>
+                    <button 
+                        onClick={handleLogout}
+                        style={{
+                            padding: '8px 16px',
+                            backgroundColor: '#dc3545',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                        }}
+                    >
+                        Log Out
+                    </button>
                 </div>
             ) : (
-                <div style={{ marginBottom: '20px' }}>
+                <div style={{ textAlign: 'center', marginBottom: '20px' }}>
                     <button 
                         onClick={loginVisible}
-                        style={{ marginRight: '10px' }}
+                        style={{
+                            marginRight: '10px',
+                            padding: '10px 20px',
+                            backgroundColor: toggleLogin ? '#6c757d' : '#007bff',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                        }}
                     >
                         {toggleLogin ? "Close Login" : "Login"}
                     </button>
                     
-                    <button onClick={createAcctVisible}>
+                    <button 
+                        onClick={createAcctVisible} 
+                        style={{
+                            padding: '10px 20px',
+                            backgroundColor: toggleAcctCreate ? '#6c757d' : '#28a745',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                        }}
+                    >
                         {toggleAcctCreate ? "Cancel" : "Create Account"}
                     </button>
                 </div>
             )}
 
             {toggleLogin && !user && (
-                <form onSubmit={handleLoginSubmit} style={{ marginBottom: '20px' }}>
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>
+                <form onSubmit={handleLoginSubmit} style={{ 
+                    marginBottom: '20px', 
+                    padding: '20px', 
+                    border: '1px solid #ddd',
+                    borderRadius: '8px'
+                }}>
+                    <h3 style={{ marginTop: 0 }}>Login</h3>
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ display: 'block', marginBottom: '5px' }}>
                             Username:
                             <input 
                                 type="text" 
                                 value={username} 
                                 onChange={(e) => setUsername(e.target.value)}
                                 required 
-                                style={{ marginLeft: '10px' }}
+                                style={{ width: '100%', padding: '8px', marginTop: '5px' }}
                             />
                         </label>
                     </div>
                     
-                    <div style={{ marginBottom: '10px' }}>
-                        <label>
+                    <div style={{ marginBottom: '15px' }}>
+                        <label style={{ display: 'block', marginBottom: '5px' }}>
                             Password:
                             <input 
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
-                                style={{ marginLeft: '10px' }}
+                                style={{ width: '100%', padding: '8px', marginTop: '5px' }}
                             />
                         </label>
                     </div>
@@ -119,6 +168,15 @@ function AccountLogin({ user, setUser }) {
                     <button 
                         type="submit" 
                         disabled={loginLoading}
+                        style={{
+                            width: '100%',
+                            padding: '10px',
+                            backgroundColor: loginLoading ? '#ccc' : '#007bff',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: loginLoading ? 'not-allowed' : 'pointer'
+                        }}
                     >
                         {loginLoading ? "Logging in..." : "Log In"}
                     </button>
@@ -126,7 +184,11 @@ function AccountLogin({ user, setUser }) {
             )}
 
             {toggleAcctCreate && !user && (
-                <div style={{ marginTop: '20px' }}>
+                <div style={{ 
+                    marginTop: '20px',
+                    borderTop: '2px solid #eee',
+                    paddingTop: '20px'
+                }}>
                     <ProfileForm onSubmit={handleAccountCreate} />
                 </div>
             )}
@@ -134,12 +196,13 @@ function AccountLogin({ user, setUser }) {
             {message && (
                 <div style={{ 
                     marginTop: '20px', 
-                    padding: '10px', 
-                    backgroundColor: message.includes('success') ? '#d4edda' : '#f8d7da',
-                    color: message.includes('success') ? '#155724' : '#721c24',
-                    borderRadius: '4px'
+                    padding: '15px', 
+                    backgroundColor: message.includes('success') ? '#d4edda' : message.includes('Error') ? '#f8d7da' : '#fff3cd',
+                    color: message.includes('success') ? '#155724' : message.includes('Error') ? '#721c24' : '#856404',
+                    borderRadius: '4px',
+                    textAlign: 'center'
                 }}>
-                    <p>{message}</p>
+                    {message}
                 </div>
             )}
         </div>
