@@ -50,7 +50,7 @@ function ProfileForm({ onSubmit }) {
         />
       </label>
       <br />
-      <lable>
+      <label>
         Are you a DM or a player?
         <select value={isDM}
         onChange={(event) => setIsDM(event.target.value)}
@@ -58,7 +58,7 @@ function ProfileForm({ onSubmit }) {
           <option value={true}>DM</option>
           <option value={false}>Player</option>
         </select>
-      </lable>
+      </label>
       <button type="submit">Save Profile</button>
     </form>
   );
