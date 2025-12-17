@@ -1,67 +1,917 @@
+@import "./styles/themes.css";
+
+/* =========================
+  DUNGEON FONT (LOGO ONLY)
+   ========================= */
+
+@font-face {
+  font-family: "DungeonSN";
+  src: url("/fonts/DUNGRG__.TTF") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* =========================
+  BASE STYLES
+   ========================= */
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
+html,
 body {
   margin: 0;
-  place-items: center;
   min-width: 400px;
   min-height: 100vh;
+  overflow-x: hidden;
+
+  background-color: var(--bg-main);
+  color: var(--text-main);
 }
+
+/* =========================
+  TYPOGRAPHY
+   ========================= */
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+h2,
+h3 {
+  color: var(--primary);
+}
+
+label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* =========================
+  LINKS
+   ========================= */
+
+a {
+  font-weight: 500;
+  color: var(--primary);
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* =========================
+  BUTTONS
+   ========================= */
+
 button {
-  border-radius: 8px;
+  border-radius: 100px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
-  font-weight: 500;
+  font-weight: 600;
   font-family: inherit;
-  background-color: #1a1a1a;
+
+  background-color: var(--primary);
+  color: var(--text-main);
+
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  transition: background-color 0.25s, box-shadow 0.25s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+button:hover {
+  background-color: var(--primary-hover);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--primary) 50%, transparent);
 }
+
+/* =========================
+  INPUTS / SELECTS
+   ========================= */
+
+input,
+select {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-focus);
+  border-radius: 6px;
+  padding: 0.4rem 0.6rem;
+}
+
+/* =========================
+  CARD SURFACES
+   ========================= */
+
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-focus);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* =========================
+  FULL-WIDTH HEADER
+   ========================= */
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+
+  background-color: var(--bg-surface);
+
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.35),
+    0 12px 32px rgba(0, 0, 0, 0.35);
+
+  border-bottom: 2px solid color-mix(
+    in srgb,
+    var(--primary) 50%,
+    transparent
+  );
+}
+
+/* =========================
+  HEADER INNER CONTAINER
+   ========================= */
+
+.app-header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1rem 1.5rem;
+  box-sizing: border-box;
+}
+
+/* =========================
+  HEADER CONTENT
+   ========================= */
+
+.brand-logo {
+  font-family: "DungeonSN", serif;
+  font-size: 4rem;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  white-space: nowrap;
+  line-height: 1;
+
+  /* Global glow (theme-aware) */
+  text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    0 0 10px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10rem;
+}
+
+/* =========================
+  MAIN CONTENT
+   ========================= */
+
+.app-main {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--primary) 6%, transparent),
+      transparent 180px
+    );
+}
+
+/* =========================
+   ARCANE TAVERN OVERRIDES
+   ========================= */
+
+[data-theme="arcane-tavern"] .brand-logo {
+  color: #bfa1b5;
+  text-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.35),
+    0 0 12px rgba(92, 253, 38, 0.75); /* #7C9175 glow */
+}
+
+/* =========================
+DRACONIC BLOOD OVERRIDES
+   ========================= */
+
+[data-theme="draconic-blood"] .brand-logo {
+  color: #ffde62;
+  text-shadow:
+    0 0 8px rgba(255, 222, 98, 0.6),
+    0 0 20px rgba(219, 15, 0, 0.4);
+}
+
+[data-theme="draconic-blood"] .app-header {
+  background-color: #1b1418;
+}
+
+/* =========================
+  SHADOWFELL LOGO
+   ========================= */
+
+[data-theme="shadowfell"] .brand-logo {
+  color: #c3b7ff;
+  text-shadow:
+    0 0 8px rgba(127, 90, 240, 0.6),
+    0 0 18px rgba(195, 183, 255, 0.45);
+}
+
+
+/* =========================
+  THEME SELECTOR — CIRCULAR
+   ========================= */
+
+/* Container label cleanup */
+.theme-selector {
+  display: flex;
+  align-items: center;
+}
+
+/* Hide default text label visually but keep it accessible */
+.theme-selector label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+}
+
+/* Base circular selector */
+.theme-selector select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+
+  border: 2px solid var(--border-focus);
+  cursor: pointer;
+
+  padding: 0;
+  text-indent: -9999px;
+
+  background-size: 200% 200%;
+  background-position: center;
+
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.1);
+
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.15s ease;
+}
+
+/* Hover / focus interaction */
+.theme-selector select:hover,
+.theme-selector select:focus {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 12px color-mix(in srgb, var(--primary) 60%, transparent),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.15);
+}
+
+/* =========================
+  THEME GRADIENTS
+   ========================= */
+
+/* Default / System */
+[data-theme="system"] .theme-selector select,
+.theme-selector select[value="system"] {
+  background-image: linear-gradient(
+    135deg,
+    #999,
+    #ddd
+  );
+}
+
+/* Arcane Tavern */
+[data-theme="arcane-tavern"] .theme-selector select {
+  background-image: linear-gradient(
+    135deg,
+    #bfa1b5,
+    #635371,
+    #bd9d82
+  );
+}
+
+/* Draconic Blood */
+[data-theme="draconic-blood"] .theme-selector select {
+  background-image: linear-gradient(
+    135deg,
+    #db0f00,
+    #ff3423,
+    #ffde62,
+    #ffb830
+  );
+}
+
+/* Deuteranopia */
+[data-theme="deuteranopia"] .theme-selector select {
+  background-image: linear-gradient(
+    135deg,
+    #005fcc,
+    #f2a900
+  );
+}
+
+/* Protanopia */
+[data-theme="protanopia"] .theme-selector select {
+  background-image: linear-gradient(
+    135deg,
+    #003f88,
+    #e09f3e
+  );
+}
+
+/* High Contrast */
+[data-theme="high-contrast"] .theme-selector select {
+  background-image: linear-gradient(
+    135deg,
+    #ffffff,
+    #000000
+  );
+}
+
+/* =========================
+  THEME SELECTOR CIRCLE
+   ========================= */
+
+.theme-selector {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: var(--theme-gradient);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.35),
+    0 0 12px color-mix(in srgb, var(--primary) 45%, transparent);
+
+  cursor: pointer;
+  appearance: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* =========================
+   HERO IMAGE SECTION
+   ========================= */
+
+.hero {
+  width: 100%;
+  height: 360px;
+
+  background-image: url("/images/hero.jpg");
+  background-size: cover;
+  background-position: center;
+
+  position: relative;
+}
+
+/* Dark overlay for readability */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.75)
+  );
+}
+
+.hero-overlay {
+  position: relative;
+  z-index: 1;
+
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: 0 2rem;
+
+  color: white;
+}
+
+.hero-overlay h1 {
+  font-size: 3.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero-overlay p {
+  font-size: 1.25rem;
+  max-width: 600px;
+  opacity: 0.9;
+}
+
+.theme-selector:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 0 0 2px rgba(0, 0, 0, 0.5),
+    0 0 18px color-mix(in srgb, var(--primary) 65%, transparent);
+}
+
+/* Hide default arrow */
+.theme-selector::-ms-expand {
+  display: none;
+}
+
+/* =========================
+   ACCOUNT DROPDOWN (EVERSKIES STYLE)
+   ========================= */
+
+.account-menu-wrapper {
+  position: relative;
+}
+
+.account-avatar-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.account-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: white;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-avatar.large {
+  width: 48px;
+  height: 48px;
+  font-size: 1.1rem;
+}
+
+.account-dropdown {
+  position: absolute;
+  right: 0;
+  top: 48px;
+
+  width: 220px;
+  background-color: var(--bg-surface);
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+  padding: 0.75rem;
+  z-index: 999;
+}
+
+.account-dropdown-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-focus);
+}
+
+.account-name {
+  font-weight: 600;
+}
+
+.account-role {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.account-dropdown-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+
+.account-dropdown-list li {
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+.account-dropdown-list li:hover {
+  background-color: color-mix(in srgb, var(--primary) 15%, transparent);
+}
+
+.account-dropdown-list .divider {
+  height: 1px;
+  margin: 0.5rem 0;
+  background-color: var(--border-focus);
+  pointer-events: none;
+}
+
+.account-dropdown-list .logout {
+  color: #d9534f;
+}
+
+/* =========================
+  ACCOUNT DROPDOWN ARROW
+   ========================= */
+
+.account-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.account-chevron {
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--text-muted);
+  transform: translateY(1px);
+}
+
+/* =========================
+   ACCOUNT DROPDOWN USER ROW
+   ========================= */
+
+.account-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.account-chevron {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--text-muted);
+  margin-left: 0.25rem;
+}
+/* =========================
+   ACCOUNT NAME + CHEVRON
+   ========================= */
+
+.account-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.account-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.account-chevron {
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--text-muted);
+  transform: translateY(1px);
+}
+
+/* =========================
+   PROFILE MODAL
+   ========================= */
+
+.account-dropdown-header.clickable {
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.account-dropdown-header.clickable:hover {
+  background-color: color-mix(
+    in srgb,
+    var(--primary) 10%,
+    transparent
+  );
+}
+
+/* MODAL */
+.profile-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-modal {
+  background: var(--bg-surface);
+  width: 420px;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+}
+
+.profile-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.profile-art {
+  width: 160px;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+}
+
+.race-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.race-option {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.race-option img.race-thumb {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 0.25rem;
+}
+
+.race-option span {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.race-option.selected {
+  outline: 2px solid var(--primary);
+  border-radius: 10px;
+}
+
+/* =========================
+   PRONOUN BUTTONS
+   ========================= */
+
+.pronoun-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.pronoun-btn {
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-focus);
+  color: var(--text-main);
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pronoun-btn:hover {
+  background-color: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.pronoun-btn.selected {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* =========================
+   PROFILE SPACING FIXES
+   ========================= */
+
+.profile-section {
+  margin-top: 1.5rem;
+}
+
+.profile-label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Pronoun button layout */
+.pronoun-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* Pronoun buttons */
+.pronoun-btn {
+  background: none;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.pronoun-btn.any {
+  background-color: var(--primary);
+  color: var(--bg-main);
+}
+
+/* Status input spacing */
+.profile-section input {
+  margin-top: 0.25rem;
+  width: 90%;
+}
+
+.profile-section {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile-section.danger {
+  border-top: 1px solid var(--border-focus);
+  padding-top: 1rem;
+}
+
+.danger-btn {
+  background-color: #b02a2a;
+  color: white;
+}
+
+.danger-btn:hover {
+  background-color: #8f1f1f;
+}
+
+.user-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+/* Card */
+.user-card {
+  background: linear-gradient(145deg, #1a0f14, #12090d);
+  border: 1px solid #3a1f2a;
+  border-radius: 14px;
+  padding: 1.2rem;
+  color: #f5e6c8;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 40px rgba(160, 64, 64, 0.35);
+}
+
+/* Header */
+.user-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #3a1f2a;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.user-card-header h3 {
+  font-size: 1.2rem;
+  color: #f4c430;
+}
+
+.user-role {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 10px;
+  background: #5c1f2a;
+}
+
+/* Body rows */
+.user-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.user-row .label {
+  color: #c79a6b;
+  font-size: 0.85rem;
+}
+
+/* Footer */
+.user-card-footer {
+  margin-top: 0.8rem;
+  text-align: right;
+}
+
+.contact-btn {
+  background: #8b2e2e;
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.contact-btn:hover {
+  background: #b03a3a;
+}
+
+.theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+/* Toggle container */
+.theme-toggle {
+  width: 42px;
+  height: 22px;
+  background: linear-gradient(135deg, #555, #222);
+  border-radius: 999px;
+  padding: 2px;
+  transition: background 0.3s ease;
+}
+
+/* When active */
+.theme-toggle.active {
+  background: linear-gradient(135deg, #ffcc66, #ff3366);
+}
+
+/* Circle */
+.theme-toggle-thumb {
+  width: 18px;
+  height: 18px;
+  background: #111;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+/* Move circle when active */
+.theme-toggle.active .theme-toggle-thumb {
+  transform: translateX(20px);
+}
+
+@keyframes jiggle {
+  0%   { transform: translateX(0); }
+  15%  { transform: translateX(-4px); }
+  30%  { transform: translateX(4px); }
+  45%  { transform: translateX(-4px); }
+  60%  { transform: translateX(4px); }
+  75%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+.jiggle {
+  animation: jiggle 0.6s ease-in-out;
+}
+

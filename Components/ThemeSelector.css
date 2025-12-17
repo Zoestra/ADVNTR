@@ -1,0 +1,123 @@
+/* =========================
+   ROW LAYOUT
+   ========================= */
+
+.theme-selector-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  width: 100%;
+  padding: 4px 0.2px;
+}
+
+
+/* =========================
+   ORB WRAPPER
+   ========================= */
+
+.theme-orb-wrapper {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+
+/* Invisible select sits ON TOP of orb */
+.theme-select-hidden {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* =========================
+   THEME ORB
+   ========================= */
+
+.theme-orb {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+
+  background: linear-gradient(135deg, #999, #333);
+
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.15),
+    0 0 10px rgba(0, 0, 0, 0.4);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.3s ease,
+    background 0.4s ease;
+}
+
+/* Hover feedback */
+.theme-orb-wrapper:hover .theme-orb {
+  transform: scale(1.06);
+}
+
+/* =========================
+   THEME GRADIENTS
+   ========================= */
+
+.theme-selector-row[data-theme-preview="system"] .theme-orb {
+  background: linear-gradient(135deg, #999, #333);
+}
+
+/* Arcane Tavern */
+.theme-selector-row[data-theme-preview="arcane-tavern"] .theme-orb {
+  background: linear-gradient(
+    135deg,
+    #bfa1b5,
+    #7c9175,
+    #68513f
+  );
+}
+
+/* Draconic Blood */
+.theme-selector-row[data-theme-preview="draconic-blood"] .theme-orb {
+  background: linear-gradient(
+    135deg,
+    #db0f00,
+    #ff3423,
+    #ffde62
+  );
+}
+
+/* Shadowfell */
+.theme-selector-row[data-theme-preview="shadowfell"] .theme-orb {
+  background: linear-gradient(
+    135deg,
+    #7f5af0,
+    #c3b7ff
+  );
+}
+
+/* Deuteranopia */
+.theme-selector-row[data-theme-preview="deuteranopia"] .theme-orb {
+  background: linear-gradient(
+    135deg,
+    #005fcc,
+    #f2a900
+  );
+}
+
+/* Protanopia */
+.theme-selector-row[data-theme-preview="protanopia"] .theme-orb {
+  background: linear-gradient(
+    135deg,
+    #003f88,
+    #e09f3e
+  );
+}
+
+/* High Contrast */
+.theme-selector-row[data-theme-preview="high-contrast"] .theme-orb {
+  background: linear-gradient(
+    135deg,
+    #ffffff,
+    #000000
+  );
+}
