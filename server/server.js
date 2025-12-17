@@ -252,7 +252,7 @@ app.post('/create-account', (req, res) => {
     }
 });
 
-// User endpoint
+// Users endpoint
 
 app.get(`/users`, (req, res) => {
     const { role, location, schedule, username } = req.query;
