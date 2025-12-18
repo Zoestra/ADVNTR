@@ -97,5 +97,5 @@ Request: `GET /api/debug/db-info`
 Response: `{success:true, tables:["users","sqlite_sequence"], database:"users.db", serverTime:"2025-12-17T07:36:26.040Z"}`
 
 ## DEMO
+[Demo Video](ADVNTR_Demo.mp4)
 
--recording goes here-
