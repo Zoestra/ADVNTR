@@ -344,7 +344,7 @@ app.get(`/campaigns`, (req,res) => {
     
     sql+=`ORDER BY id`;
     
-    db.all(sql, parameters, (err, rows) => {
+ db.all('SELECT id, name, location, schedule, dm, style, created_at FROM campaigns ORDER BY id', (err, rows) => {
         if (err) {
             console.error('Error fetching campaigns:', err);
             return res.status(500).json({ error: 'Database error', details: err.message });
@@ -354,11 +354,12 @@ app.get(`/campaigns`, (req,res) => {
         res.json({
             success: true,
             count: rows.length,
-            users: rows,
+            campaigns: rows, 
             timestamp: new Date().toISOString()
         });
     });
-})
+});
+
 
 // Debug endpoint to view all users (REMOVE THIS IN PRODUCTION!)
 app.get('/api/debug/users', (req, res) => {

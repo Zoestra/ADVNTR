@@ -1,7 +1,3 @@
-#######
-// This file was created by claude.ai to import our dummy data to the database
-
-
 import sqlite3 from "sqlite3";
 import bcrypt from 'bcryptjs';
 import path from "path";
@@ -25,6 +21,27 @@ async function seedDatabase() {
 
     // Hash the default password once
     const hashedPassword = await bcrypt.hash(DEFAULT_PASSWORD, 10);
+
+    // Create users table if it doesn't exist
+    await new Promise((resolve, reject) => {
+        db.run(`CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            password TEXT NOT NULL,
+            role TEXT CHECK(role IN ('DM', 'Player')) NOT NULL DEFAULT 'Player',
+            location TEXT,
+            schedule TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )`, (err) => {
+            if (err) {
+                console.error('Error creating users table:', err);
+                reject(err);
+            } else {
+                console.log('✓ Users table is ready');
+                resolve();
+            }
+        });
+    });
 
     // Create campaigns table if it doesn't exist
     await new Promise((resolve, reject) => {
@@ -144,3 +161,4 @@ async function seedDatabase() {
 }
 
 seedDatabase().catch(console.error);
+
