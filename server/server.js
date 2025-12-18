@@ -354,7 +354,7 @@ app.get(`/campaigns`, (req,res) => {
         res.json({
             success: true,
             count: rows.length,
-            campaigns: rows,  // ✅ Fixed
+            campaigns: rows, 
             timestamp: new Date().toISOString()
         });
     });
