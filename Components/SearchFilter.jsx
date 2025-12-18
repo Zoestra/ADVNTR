@@ -75,7 +75,7 @@ function SearchFilter(){
                     .includes((campaign.name || "").toLowerCase())).filter(
                     campaign => campaign.style.toLocaleLowerCase().includes(campaignStyleFilter.toLowerCase()))
                     .map(campaign => (
-                    <CampaignCard key={campaign.id} campaign={campaign} />
+                    <CampaignCard key={campaign.id} campaign={campaign} dms={dms}/>
                 ))}
 
             <h2>Dungeon Masters</h2>
