@@ -915,3 +915,11 @@ DRACONIC BLOOD OVERRIDES
   animation: jiggle 0.6s ease-in-out;
 }
 
+
+/* =========================
+   CREATE CAMPAIGN 
+   ========================= */
+
+.create-campaign-container {
+  margin-bottom: 2rem;
+}

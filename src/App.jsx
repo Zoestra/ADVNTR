@@ -5,6 +5,7 @@ import ProfileModal from "../Components/ProfileModal.jsx";
 import SearchFilter from "../Components/SearchFilter.jsx";
 import SettingsModal from "../Components/SettingsModal.jsx";
 import LandingPage from "./pages/LandingPage";
+import CreateCampaign from "../Components/CreateCampaign.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -106,7 +107,13 @@ function App() {
             </div>
           </section>
 
-          <main className="app-main">
+        <main className="app-main">
+          <CreateCampaign 
+            user={user} 
+            onCampaignCreated={(campaign) => {
+              console.log("New campaign created:", campaign);
+            }} 
+          />
             <SearchFilter />
           </main>
         </>

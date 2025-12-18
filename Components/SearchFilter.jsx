@@ -72,7 +72,7 @@ function SearchFilter(){
                 onChange={(evnet) => setCampaignStyleFilter(event.target.value)}></input>
                 
                 {generalFilter(campaigns).filter(campaign => (campaign.name || "").toLowerCase()
-                    .includes((campaign.name || "").toLowerCase())).filter(
+                    .includes((campaignNameFilter || "").toLowerCase())).filter(
                     campaign => campaign.style.toLocaleLowerCase().includes(campaignStyleFilter.toLowerCase()))
                     .map(campaign => (
                     <CampaignCard key={campaign.id} campaign={campaign} dms={dms}/>
