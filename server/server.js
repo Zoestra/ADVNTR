@@ -488,6 +488,41 @@ db.run("DELETE FROM users WHERE id = ?", [userId], err => {
 });
 });
 
+// Campaign Endpoint
+app.post('/campaigns', (req, res) => {
+    const { name, location, schedule, dm, style } = req.body;
+    
+    if (!name || !schedule || !dm) {
+        return res.status(400).json({ 
+            success: false,
+            error: 'Name, schedule, and DM are required' 
+        });
+    }
+
+    const sql = 'INSERT INTO campaigns (name, location, schedule, dm, style) VALUES (?, ?, ?, ?, ?)';
+    
+    db.run(sql, [name, location || null, schedule, dm, style || null], function(err) {
+        if (err) {
+            console.error('Error creating campaign:', err);
+            return res.status(500).json({ 
+                success: false,
+                error: 'Failed to create campaign' 
+            });
+        }
+        
+        res.status(201).json({ 
+            success: true,
+            campaign: {
+                id: this.lastID,
+                name,
+                location,
+                schedule,
+                dm,
+                style
+            }
+        });
+    });
+});
 
 // 404 handler
 app.use((req, res) => {
