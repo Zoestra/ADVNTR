@@ -311,8 +311,40 @@ app.get(`/users`, (req, res) => {
 // endpoint for campaigns
 app.get(`/campaigns`, (req,res) => {
     console.log('DEBUG: Fetching all campaigns');
+    const { location, schedule, style, name } = req.query;
+
+    const conditions = [];
+    const parameters = [];
+
+    if(location){
+        conditions.push(`LOWER(location) LIKE LOWER(?)`);
+        parameters.push(`%${location}%`);
+    }
+
+    if(schedule){
+        conditions.push(`LOWER(schedule) LIKE LOWER(?)`);
+        parameters.push(`%${schedule}%`);
+    }
+
+    if(style){
+        conditions.push(`LOWER(style) LIKE LOWER(?)`);
+        parameters.push(`%${style}%`);
+    }
+
+    if(name){
+        conditions.push(`LOWER(name) = LOWER(?)`);
+        parameters.push(name);
+    }
+
+    let sql = `SELECT id, name, role, location, schedule, created_at FROM campaigns `;
+
+    if (conditions.length > 0) {
+        sql += ' WHERE ' + conditions.join(' AND ');
+    }
     
-    db.all('SELECT id, name, location, schedule, created_at FROM campaigns ORDER BY id', (err, rows) => {
+    sql+=`ORDER BY id`;
+    
+    db.all(sql, parameters, (err, rows) => {
         if (err) {
             console.error('Error fetching campaigns:', err);
             return res.status(500).json({ error: 'Database error', details: err.message });

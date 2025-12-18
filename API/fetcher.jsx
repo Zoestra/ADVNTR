@@ -2,12 +2,8 @@ const url = "http://localhost:3000";
 
 export const fetcher = {
     campaign: async() => {
-            console.warn("Campaign endpoint not implemented yet");
-            return { success: true, campaigns: [] };
-            /*
+           
         try{
-
-            Campaign backend not implemented yet
             const res = await fetch(`${url}/campaigns`);
             
             if(!res.ok){
@@ -18,7 +14,7 @@ export const fetcher = {
         }catch(error){
             console.error("An error occurred fetching campaigns:", error);
             throw error;
-        }*/
+        }
     },
     dm: async() => {
         try{
