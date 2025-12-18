@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { fetcher } from "../API/fetcher.jsx";
+import CampaignCard from "./CampaignCard.jsx";
 import DMCard from "./DMCard.jsx";
 import PlayerCard from "./PlayerCard.jsx";
-import CampaignCard from "./CampaignCard.jsx";
-import { DM_data } from "../Data/DM_data.js";
-import { Player_data } from "../Data/Player_data.js";
-import { Campaign_data } from "../Data/Campaign_data.js";
-import { fetcher } from "../API/fetcher.jsx";
+
 
 function SearchFilter(){
     const [locationFilter, setLocationFilter] = useState("");
@@ -25,7 +23,7 @@ function SearchFilter(){
                 const [c,d,p] = await Promise.all([
                     fetcher.campaign(),
                     fetcher.dm(),
-                    fetcher.player()                    
+                    fetcher.player()
                 ]);
 
             setCampaigns(c.campaigns || []); // for campaigns stub
@@ -49,7 +47,7 @@ function SearchFilter(){
 
     return(
         <div>
-            <h1>ADVNTR</h1>
+            
             Location
             <input type="text" placeholder="search by location" value={locationFilter}
                 onChange={(event) => setLocationFilter(event.target.value)}></input>

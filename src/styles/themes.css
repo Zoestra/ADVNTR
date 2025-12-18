@@ -1,0 +1,142 @@
+/* =========================
+   DEFAULT THEME (SYSTEM)
+   ========================= */
+
+:root {
+  --bg-main: #ffffff;
+  --bg-surface: #f4f4f4;
+
+  --text-main: #1a1a1a;
+  --text-muted: #555555;
+
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+
+  --accent: #9333ea;
+
+  --border-focus: #cccccc;
+}
+
+/* =========================
+   ARCANE TAVERN THEME
+   ========================= */
+
+[data-theme="arcane-tavern"] {
+  --bg-main: #d6d8d7;
+  --bg-surface: #bd9d82;
+
+  --text-main: #2b1f29;
+  --text-muted: #635371;
+
+  --primary: #bfa1b5;
+  --primary-hover: #a3879c;
+
+  --accent: #68513f;
+
+  --border-focus: #635371;
+}
+
+/* =========================
+   DRACONIC BLOOD THEME
+   ========================= */
+
+[data-theme="draconic-blood"] {
+  /* Backgrounds */
+  --bg-main: #130d11;      /* near-black volcanic stone */
+  --bg-surface: #1f141a;   /* raised obsidian surface */
+
+  /* Text */
+  --text-main: #ffde62;    /* molten gold */
+  --text-muted: #ffb830;  /* warm ember */
+
+  /* Primary actions */
+  --primary: #db0f00;      /* blood red */
+  --primary-hover: #ff3423;
+
+  /* Accents */
+  --accent: #ff3423;
+
+  --border-focus: #ffb830;
+}
+
+/* =========================
+   ACCESSIBILITY THEMES
+   ========================= */
+
+/* Deuteranopia Safe */
+[data-theme="deuteranopia"] {
+  --primary: #005fcc;
+  --primary-hover: #0047a0;
+  --accent: #f2a900;
+}
+
+/* Protanopia Safe */
+[data-theme="protanopia"] {
+  --primary: #003f88;
+  --primary-hover: #002f66;
+  --accent: #e09f3e;
+}
+
+/* High Contrast (Dungeon Master Mode) */
+[data-theme="high-contrast"] {
+  --bg-main: #000000;
+  --bg-surface: #111111;
+
+  --text-main: #ffffff;
+  --text-muted: #dddddd;
+
+  --primary: #00ffff;
+  --primary-hover: #00cccc;
+  --accent: #ffff00;
+
+  --border-focus: #ffffff;
+}
+
+[data-theme="arcane-tavern"] {
+  --theme-gradient: linear-gradient(
+    135deg,
+    #bfa1b5,
+    #7c9175,
+    #68513f
+  );
+}
+
+[data-theme="draconic-blood"] {
+  --theme-gradient: linear-gradient(
+    135deg,
+    #db0f00,
+    #ff3423,
+    #ffde62,
+    #ffb830
+  );
+}
+
+:root {
+  --theme-gradient: linear-gradient(
+    135deg,
+    var(--primary),
+    var(--accent)
+  );
+}
+
+[data-theme="shadowfell"] {
+  /* Core surfaces */
+  --bg-main: #0b0e14;
+  --bg-surface: #161a23;
+
+  /* Text */
+  --text-main: #e6e6f0;
+  --text-muted: #9a9ab0;
+
+  /* Brand + actions */
+  --primary: #7f5af0;
+  --primary-hover: #9d7bff;
+
+  /* Accents */
+  --accent: #c3b7ff;
+  --border-focus: #2a2f45;
+
+  /* Shadows */
+  --shadow-soft: rgba(0, 0, 0, 0.5);
+  --shadow-strong: rgba(0, 0, 0, 0.8);
+}

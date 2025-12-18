@@ -1,8 +1,8 @@
-import express from "express";
-import sqlite3 from "sqlite3";
 import bcrypt from 'bcryptjs';
 import cors from "cors";
+import express from "express";
 import path from "path";
+import sqlite3 from "sqlite3";
 import { fileURLToPath } from "url";
 
 const app = express();
@@ -374,6 +374,87 @@ app.use((err, req, res, next) => {
         error: 'Internal server error' 
     });
 });
+
+// =====================
+// UPDATE USERNAME
+// =====================
+app.put("/api/update-username", (req, res) => {
+const { userId, newUsername } = req.body;
+
+if (!userId || !newUsername) {
+    return res.status(400).json({ error: "Missing fields" });
+}
+
+db.run(
+    "UPDATE users SET username = ? WHERE id = ?",
+    [newUsername, userId],
+    function (err) {
+    if (err) {
+        if (err.message.includes("UNIQUE")) {
+        return res.status(409).json({ error: "Username already taken" });
+        }
+        return res.status(500).json({ error: "Database error" });
+    }
+
+    res.json({ success: true, username: newUsername });
+    }
+);
+});
+
+// =====================
+// UPDATE PASSWORD
+// =====================
+app.put("/api/update-password", (req, res) => {
+const { userId, currentPassword, newPassword } = req.body;
+
+if (!userId || !currentPassword || !newPassword) {
+    return res.status(400).json({ error: "Missing fields" });
+}
+
+db.get("SELECT password FROM users WHERE id = ?", [userId], (err, row) => {
+    if (err || !row) {
+    return res.status(404).json({ error: "User not found" });
+    }
+
+    bcrypt.compare(currentPassword, row.password, (err, match) => {
+    if (!match) {
+        return res.status(401).json({ error: "Incorrect password" });
+    }
+
+    bcrypt.hash(newPassword, 10, (err, hash) => {
+        if (err) {
+        return res.status(500).json({ error: "Hash error" });
+        }
+
+        db.run(
+        "UPDATE users SET password = ? WHERE id = ?",
+        [hash, userId],
+        () => res.json({ success: true })
+        );
+    });
+    });
+});
+});
+
+// =====================
+// DELETE ACCOUNT
+// =====================
+app.delete("/api/delete-account", (req, res) => {
+const { userId } = req.body;
+
+if (!userId) {
+    return res.status(400).json({ error: "Missing userId" });
+}
+
+db.run("DELETE FROM users WHERE id = ?", [userId], err => {
+    if (err) {
+    return res.status(500).json({ error: "Database error" });
+    }
+
+    res.json({ success: true });
+});
+});
+
 
 // 404 handler
 app.use((req, res) => {
