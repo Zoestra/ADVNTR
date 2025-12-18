@@ -2,8 +2,6 @@ const url = "http://localhost:3000";
 
 export const fetcher = {
     campaign: async() => {
-        //    console.warn("Campaign endpoint not implemented yet");
-        //    return { success: true, campaigns: [] };
            
         try{
             const res = await fetch(`${url}/campaigns`);
