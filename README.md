@@ -98,4 +98,5 @@ Response: `{success:true, tables:["users","sqlite_sequence"], database:"users.db
 
 ## DEMO
 [Demo Video](ADVNTR_Demo.mp4)
+(video is too large for github's player)
 
